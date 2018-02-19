@@ -63,7 +63,7 @@ public class BaseNotificationBanner: UIView {
     /// If false, the banner will not be dismissed until the developer programatically dismisses it
     public var autoDismiss: Bool = true {
         didSet {
-            if !autoDismiss {
+            if autoDismiss == false {
                 dismissOnTap = false
                 dismissOnSwipeUp = false
             }
@@ -84,6 +84,8 @@ public class BaseNotificationBanner: UIView {
     
     /// Closure that will be executed if the notification banner is swiped up
     public var onSwipeUp: (() -> Void)?
+
+    public var onSwipeDown: (() -> Void)?
     
     /// Responsible for positioning and auto managing notification banners
     public var bannerQueue: NotificationBannerQueue = NotificationBannerQueue.default
@@ -150,6 +152,10 @@ public class BaseNotificationBanner: UIView {
         let swipeUpGesture = UISwipeGestureRecognizer(target: self, action: #selector(onSwipeUpGestureRecognizer))
         swipeUpGesture.direction = .up
         addGestureRecognizer(swipeUpGesture)
+
+        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(onSwipeDownGestureRecognizer))
+        swipeDownGesture.direction = .down
+        addGestureRecognizer(swipeDownGesture)
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -393,6 +399,10 @@ public class BaseNotificationBanner: UIView {
         }
         
         onSwipeUp?()
+    }
+
+    @objc private dynamic func onSwipeDownGestureRecognizer() {
+        onSwipeDown?()
     }
     
     
