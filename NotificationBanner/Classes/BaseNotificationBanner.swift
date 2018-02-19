@@ -43,10 +43,14 @@ public class BaseNotificationBanner: UIView {
             if let customBannerHeight = customBannerHeight {
                 return customBannerHeight
             } else {
-                return shouldAdjustForIphoneX() ? 88.0 : 64.0
+                return shouldAdjustForIphoneX() ? 104.0 : 80.0
             }
         } set {
-            customBannerHeight = newValue
+            if newValue <= 1e-7 {
+                customBannerHeight = nil
+            } else {
+                customBannerHeight = newValue
+            }
         }
     }
     
