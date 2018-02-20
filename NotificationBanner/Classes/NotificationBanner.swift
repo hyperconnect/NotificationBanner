@@ -50,11 +50,14 @@ public class NotificationBanner: BaseNotificationBanner {
     
     /// The view that is presented on the right side of the notification
     private var rightView: UIView?
+
+    var pullDownBar = UIView()
     
     public init(title: String,
                 subtitle: String? = nil,
                 leftView: UIView? = nil,
                 rightView: UIView? = nil,
+                showPullDownBar: Bool = false,
                 style: BannerStyle = .info,
                 colors: BannerColorsProtocol? = nil) {
         
@@ -80,6 +83,21 @@ public class NotificationBanner: BaseNotificationBanner {
                 make.bottom.equalToSuperview().offset(-10)
                 make.width.equalTo(rightView.snp.height)
             })
+        }
+
+        if showPullDownBar {
+            pullDownBar.clipsToBounds = true
+            pullDownBar.layer.cornerRadius = 2
+            pullDownBar.backgroundColor = UIColor.white.withAlphaComponent(0.3)
+            contentView.addSubview(pullDownBar)
+            pullDownBar.snp.makeConstraints { (make) in
+                make.centerX.equalToSuperview()
+                make.width.equalTo(32)
+                make.height.equalTo(4)
+                make.bottom.equalToSuperview().offset(-6)
+            }
+        } else {
+            pullDownBar.removeFromSuperview()
         }
         
         let labelsView = UIView()
